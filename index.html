@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>社内セキュリティ研修</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      background: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.8;
+    }
+
+    header {
+      background: #2c3e50;
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; font-weight: bold; }
+    header p  { margin-top: 0.4rem; font-size: 0.95rem; opacity: 0.8; }
+
+    .alert {
+      margin: 2rem auto;
+      max-width: 800px;
+      padding: 1.2rem 1.6rem;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .alert-danger {
+      background: #fdecea;
+      border-left: 5px solid #e74c3c;
+      color: #c0392b;
+    }
+    .alert-warning {
+      background: #fef9e7;
+      border-left: 5px solid #f39c12;
+      color: #9a6b00;
+    }
+    .alert-hidden { display: none; }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-top: 1.8rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    section h2 {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #2c3e50;
+    }
+
+    section p { margin-bottom: 0.8rem; }
+
+    .example {
+      background: #f4f6f9;
+      border-left: 4px solid #7f8c8d;
+      padding: 0.8rem 1.2rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.95rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .example .label {
+      font-family: inherit;
+      font-size: 0.8rem;
+      color: #7f8c8d;
+      margin-bottom: 0.3rem;
+    }
+    .fake  { color: #e74c3c; font-weight: bold; }
+    .real  { color: #27ae60; font-weight: bold; }
+
+    ul.checklist {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.5rem;
+    }
+    ul.checklist li {
+      padding: 0.4rem 0 0.4rem 1.8rem;
+      position: relative;
+    }
+    ul.checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: #95a5a6;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>社内セキュリティ研修</h1>
+  <p>ファイル偽装攻撃への対策</p>
+</header>
+
+<main>
+
+  <div id="alert-exec" class="alert alert-danger alert-hidden">
+    あなたはファイルを実行してしまいました。<br>
+    今回は研修用の無害なファイルでしたが、実際のマルウェアであれば感染していた可能性があります。
+  </div>
+
+  <div id="alert-prop" class="alert alert-warning alert-hidden">
+    ファイルのプロパティを確認したことは正しい行動です。<br>
+    しかし、プロパティに記載されたURLが安全とは限りません。URLを直接開く前に、送信元や文脈を必ず確認しましょう。
+  </div>
+
+  <!-- 拡張子偽装 -->
+  <section>
+    <h2>拡張子偽装攻撃とは</h2>
+    <p>
+      ファイル名の拡張子を別の種類に見せかけることで、利用者に無害なファイルだと誤認させる攻撃手法です。
+    </p>
+    <div class="example">
+      <div class="label">見た目（Windowsで拡張子を非表示にしている場合）</div>
+      <span class="fake">invoice.pdf</span>
+    </div>
+    <div class="example">
+      <div class="label">実際のファイル名</div>
+      <span class="real">invoice.pdf.exe</span>
+    </div>
+    <p>
+      Windowsの初期設定では「既知のファイルの拡張子を表示しない」が有効になっています。
+      この設定のもとでは末尾の <code>.exe</code> が隠れ、PDFファイルに見えてしまいます。
+    </p>
+  </section>
+
+  <!-- RLO攻撃 -->
+  <section>
+    <h2>RLO攻撃とは</h2>
+    <p>
+      Unicode の制御文字 <strong>U+202E（RLO: Right-to-Left Override）</strong> をファイル名に埋め込む攻撃手法です。
+      RLO文字以降の文字列が右から左に反転して表示されるため、拡張子を視覚的に偽装できます。
+    </p>
+    <div class="example">
+      <div class="label">画面上の表示</div>
+      <span class="fake">invoice_exe.jpg</span>
+    </div>
+    <div class="example">
+      <div class="label">実際のファイル名（RLO文字を除去した状態）</div>
+      <span class="real">invoice_gpj.exe</span>
+    </div>
+    <p>
+      一見すると画像ファイルに見えますが、実体は実行ファイルです。
+      拡張子の確認だけでは気づけないため、拡張子偽装より発見が困難です。
+    </p>
+  </section>
+
+  <!-- 対策と意識付け -->
+  <section>
+    <h2>対策と意識付け</h2>
+    <ul class="checklist">
+      <li>Windowsの「ファイル名拡張子を表示する」設定を有効にする</li>
+      <li>ファイルを開く前にプロパティで「ファイルの種類」を確認する</li>
+      <li>プロパティに記載されたURLやパスが正規のものか確認する</li>
+      <li>メールや外部メディアからのファイルはウイルス対策ソフトでスキャンする</li>
+      <li>不審なファイルは開かず、情報システム部門に報告する</li>
+    </ul>
+    <p style="margin-top:1rem;">
+      攻撃者はファイル名・アイコン・プロパティを巧みに偽装します。
+      「見た目」だけで安全と判断せず、ファイルの出所と実体を必ず確認する習慣を持ちましょう。
+    </p>
+  </section>
+
+</main>
+
+<footer>社内セキュリティ研修用コンテンツ</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const from = params.get("from");
+  if (from === "exec") {
+    document.getElementById("alert-exec").classList.remove("alert-hidden");
+  } else if (from === "prop") {
+    document.getElementById("alert-prop").classList.remove("alert-hidden");
+  }
+</script>
+
+</body>
+</html>
