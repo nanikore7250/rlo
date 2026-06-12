@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="1;url=https://example.com/training?from=rlo">
+  <title>移動中...</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f4f6f9;
+      color: #2c3e50;
+    }
+    p { font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <p>移動中...</p>
+  <script>
+    window.location.replace("https://example.com/training?from=rlo");
+  </script>
+</body>
+</html>
+
+<!--
+  【配布時のファイル名について】
+
+  このファイルは以下のようなRLO偽装ファイル名で配布する。
+
+  実際のファイル名: report_[U+202E]txt.html
+  画面上の表示:     report_lth.txt  ← .htmlが.txtに見える
+
+  U+202E (RLO文字) の挿入方法:
+    - Windowsのファイル名変更時に Alt+202E (テンキー) で入力
+    - Pythonで生成する場合: "report_‮txt.html"
+
+  bit.lyは2種類用意:
+    実行時(rlo_trap.html を開いた場合) → ?from=rlo
+    プロパティ確認後に手動アクセス    → ?from=prop
+-->
