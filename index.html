@@ -242,12 +242,12 @@
             const type = params.get("type");
             if (type == "rlo") {
                 document
-                    .getElementById("alert-rlo")
-                    .classList.remove("alert-hidden");
+                    .getElementById("alert-extension")
+                    .classList.add("alert-hidden");
             } else if (type == "extension") {
                 document
-                    .getElementById("alert-extension")
-                    .classList.remove("alert-hidden");
+                    .getElementById("alert-rlo")
+                    .classList.add("alert-hidden");
             }
         </script>
     </body>
