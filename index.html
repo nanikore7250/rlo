@@ -98,7 +98,6 @@
             .example .label {
                 font-family: inherit;
                 font-size: 0.8rem;
-                color: #7f8c8d;
                 margin-bottom: 0.3rem;
             }
             .fake {
@@ -153,76 +152,140 @@
             </div>
 
             <!-- 拡張子偽装 -->
-            <section id="extension-fooling">
-                <h2>拡張子偽装攻撃とは</h2>
-                <p>
-                    ファイル名の拡張子を別の種類に見せかけることで、利用者に無害なファイルだと誤認させる攻撃手法です。
-                </p>
-                <div class="example">
-                    <div class="label">
-                        見た目（Windowsで拡張子を非表示にしている場合）
+            <div id="extension-fooling">
+                <section>
+                    <h2>拡張子偽装攻撃①：二重拡張子</h2>
+                    <p>
+                        ファイル名の末尾に本来の拡張子を追加し、その前に偽の拡張子を置く手法です。
+                        Windowsの初期設定では「既知のファイルの拡張子を表示しない」が有効になっているため、末尾の <code>.exe</code> が隠れ、PDFファイルに見えてしまいます。
+                    </p>
+                    <div class="example">
+                        <div class="label fake">
+                            見た目（Windowsで拡張子を非表示にしている場合）
+                        </div>
+                        <img
+                            src="/image1.png"
+                            alt="拡張子偽装の例"
+                            style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px"
+                        />
                     </div>
-                    <span class="fake">invoice.pdf</span>
-                </div>
-                <div class="example">
-                    <div class="label">実際のファイル名</div>
-                    <span class="real">invoice.pdf.exe</span>
-                </div>
-                <p>
-                    Windowsの初期設定では「既知のファイルの拡張子を表示しない」が有効になっています。
-                    この設定のもとでは末尾の
-                    <code>.exe</code> が隠れ、PDFファイルに見えてしまいます。
-                </p>
-            </section>
+                    <div class="example">
+                        <div class="label real">
+                            実際のファイル名
+                        </div>
+                        <img
+                            src="/image2.png"
+                            alt="実際のファイル名の例"
+                            style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px"
+                        />
+                    </div>
+                </section>
+                <section>
+                    <h2>拡張子偽装攻撃②：スペースパディング</h2>
+                    <p>
+                        ファイル名の偽の拡張子と本物の拡張子の間に大量のスペースを挿入する手法です。
+                        エクスプローラーやツールバーの表示幅内に収まりきらず、末尾の本物の拡張子がユーザーから見えなくなります。
+                    </p>
+                    <div class="example">
+                        <div class="label fake">
+                            見た目（表示幅で切り捨てられる）
+                        </div>
+                        <img
+                            src="/image3.png"
+                            alt="スペースパディングによる拡張子偽装の例"
+                            style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px"
+                        />
+                    </div>
+                    <div class="example">
+                        <div class="label real">
+                            実際のファイル名
+                        </div>
+                        <img
+                            src="/image4.png"
+                            alt="実際のファイル名の例"
+                            style="max-width: 100%; border: 1px solid #ccc; border-radius: 4px"
+                        />
+                    </div>
+                    <p>
+                        拡張子を表示する設定でも、画面の表示幅次第では末尾が見切れてしまうため注意が必要です。
+                        ファイルを右クリックしてプロパティの「ファイルの種類」で確認する習慣が有効です。
+                    </p>
+                </section>
+                <section>
+                    <h2>対策と意識付け</h2>
+                    <ul class="checklist">
+                        <li>
+                            Windowsの「ファイル名拡張子を表示する」設定を有効にする
+                        </li>
+                        <li>
+                            ファイルを開く前にプロパティで「ファイルの種類」を確認する
+                        </li>
+                        <li>
+                            プロパティに記載されたURLやパスが正規のものか確認する
+                        </li>
+                        <li>
+                            メールや外部メディアからのファイルはウイルス対策ソフトでスキャンする
+                        </li>
+                        <li>不審なファイルは開かず、情報システム部門に報告する</li>
+                    </ul>
+                    <p style="margin-top: 1rem">
+                        攻撃者はファイル名・アイコン・プロパティを巧みに偽装します。
+                        「見た目」だけで安全と判断せず、ファイルの出所と実体を必ず確認する習慣を持ちましょう。
+                    </p>
+                </section>
+            </div>
 
             <!-- RLO攻撃 -->
-            <section id="rlo-attack">
-                <h2>RLO攻撃とは</h2>
-                <p>
-                    Unicode の制御文字
-                    <strong>U+202E（RLO: Right-to-Left Override）</strong>
-                    をファイル名に埋め込む攻撃手法です。
-                    RLO文字以降の文字列が右から左に反転して表示されるため、拡張子を視覚的に偽装できます。
-                </p>
-                <div class="example">
-                    <div class="label">画面上の表示</div>
-                    <span class="fake">invoice_exe.jpg</span>
-                </div>
-                <div class="example">
-                    <div class="label">
-                        実際のファイル名（RLO文字を除去した状態）
+            <div id="rlo-attack">
+                <section>
+                    <h2>RLO攻撃とは</h2>
+                    <p>
+                        Unicode の制御文字
+                        <strong>U+202E（RLO: Right-to-Left Override）</strong>
+                        をファイル名に埋め込む攻撃手法です。
+                        RLO文字以降の文字列が右から左に反転して表示されるため、拡張子を視覚的に偽装できます。
+                    </p>
+                    <div class="example">
+                        <div class="label fake">
+                            画面上の表示
+                        </div>
+                        <span class="fake">invoice_exe.jpg</span>
                     </div>
-                    <span class="real">invoice_gpj.exe</span>
-                </div>
-                <p>
-                    一見すると画像ファイルに見えますが、実体は実行ファイルです。
-                    拡張子の確認だけでは気づけないため、拡張子偽装より発見が困難です。
-                </p>
-            </section>
+                    <div class="example">
+                        <div class="label real">
+                            実際のファイル名（RLO文字を除去した状態）
+                        </div>
+                        <span class="real">invoice_gpj.exe</span>
+                    </div>
+                    <p>
+                        一見すると画像ファイルに見えますが、実体は実行ファイルです。
+                        拡張子の確認だけでは気づけないため、拡張子偽装より発見が困難です。
+                    </p>
+                </section>
+                <section>
+                    <h2>対策と意識付け</h2>
+                    <ul class="checklist">
+                        <li>
+                            Windowsの「ファイル名拡張子を表示する」設定を有効にする
+                        </li>
+                        <li>
+                            ファイルを開く前にプロパティで「ファイルの種類」を確認する
+                        </li>
+                        <li>
+                            プロパティに記載されたURLやパスが正規のものか確認する
+                        </li>
+                        <li>
+                            メールや外部メディアからのファイルはウイルス対策ソフトでスキャンする
+                        </li>
+                        <li>不審なファイルは開かず、情報システム部門に報告する</li>
+                    </ul>
+                    <p style="margin-top: 1rem">
+                        攻撃者はファイル名・アイコン・プロパティを巧みに偽装します。
+                        「見た目」だけで安全と判断せず、ファイルの出所と実体を必ず確認する習慣を持ちましょう。
+                    </p>
+                </section>
+            </div>
 
-            <!-- 対策と意識付け -->
-            <section>
-                <h2>対策と意識付け</h2>
-                <ul class="checklist">
-                    <li>
-                        Windowsの「ファイル名拡張子を表示する」設定を有効にする
-                    </li>
-                    <li>
-                        ファイルを開く前にプロパティで「ファイルの種類」を確認する
-                    </li>
-                    <li>
-                        プロパティに記載されたURLやパスが正規のものか確認する
-                    </li>
-                    <li>
-                        メールや外部メディアからのファイルはウイルス対策ソフトでスキャンする
-                    </li>
-                    <li>不審なファイルは開かず、情報システム部門に報告する</li>
-                </ul>
-                <p style="margin-top: 1rem">
-                    攻撃者はファイル名・アイコン・プロパティを巧みに偽装します。
-                    「見た目」だけで安全と判断せず、ファイルの出所と実体を必ず確認する習慣を持ちましょう。
-                </p>
-            </section>
         </main>
 
         <footer>社内セキュリティ研修用コンテンツ</footer>
@@ -242,12 +305,12 @@
             const type = params.get("type");
             if (type == "rlo") {
                 document
-                    .getElementById("alert-extension")
-                    .classList.add("alert-hidden");
+                    .getElementById("extension-fooling")
+                    .style.display = "none";
             } else if (type == "extension") {
                 document
-                    .getElementById("alert-rlo")
-                    .classList.add("alert-hidden");
+                    .getElementById("rlo-attack")
+                    .style.display = "none";
             }
         </script>
     </body>
