@@ -1,7 +1,7 @@
 import webbrowser
 from time import sleep
 
-TRAINING_URL = "https://nanikore7250.github.io/rlo/"  # TODO: 実際のURLに差し替え
+TRAINING_URL = "https://bit.ly/4uuBXdJ"  # TODO: 実際のURLに差し替え
 
 print("installing...", end="", flush=True)
 for i in range(1, 50):
